@@ -1,0 +1,13 @@
+
+version: '3.7'
+
+services:
+
+  shiny:
+    image: raquamaps/shiny:v0.1.7
+    container_name: shiny
+    environment:
+      - VIRTUAL_HOST=birdrecoveries-test.nrm.se
+      - VIRTUAL_PORT=3838
+    #ports:
+    #  - 3838:3838
