@@ -89,5 +89,6 @@ TODO: write section here
 Meta
 ----
 
--   Please [report any requests, issues or bugs](https://github.com/mskyttner/swedishbirdrecoveries/issues).
+-   Please [report any requests, issues or bugs](https://github.com/Naturhistoriska/swedishbirdrecoveries/issues) 
+-   [Older issues, see this repo](https://github.com/mskyttner/swedishbirdrecoveries/issues).
 -   License: Affero GPL v3
