@@ -1,10 +1,7 @@
 #! make
 
-all-up:
-	docker-compose -f docker-compose.all.yml up
-
 test-up:
-	docker-compose -f docker-compose.test.yml up -d shiny
+	docker-compose -f docker-compose.test.yml up -d 
 
 test-ps:
 	docker-compose -f docker-compose.test.yml ps
@@ -16,4 +13,4 @@ test-down:
 	docker-compose -f docker-compose.test.yml down --remove-orphans
 
 
-# if conflict then 'docker rm xyzxx'
+# NOTE: if conflict then 'docker rm xyzxx'
