@@ -1,16 +1,14 @@
 #! make
 
-test-up:
-	docker-compose -f docker-compose.test.yml up -d 
+up: all-production-up
 
-test-ps:
-	docker-compose -f docker-compose.test.yml ps
+all-production-up:
+	docker-compose -f docker-compose.prod.yml up -d
 
-test-logs:
-	docker-compose -f docker-compose.test.yml logs -f
+all-production-ps:
+	docker-compose -f docker-compose.prod.yml ps
 
-test-down:
-	docker-compose -f docker-compose.test.yml down --remove-orphans
+all-production-logs:
+	docker-compose -f docker-compose.prod.yml logs -f
 
-
-# NOTE: if conflict then 'docker rm xyzxx'
+# if conflict then 'docker rm xyzxx'
