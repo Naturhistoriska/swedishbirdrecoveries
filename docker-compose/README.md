@@ -1,11 +1,16 @@
 # Pre-requirements.
 
-production machine = nrmbirdringing.nrm.se  <p>
+ <p>
 
 0. Operating system : Ubuntu 18.04.4 LTS
 1. 'make' version (`make -v`): tested with = GNU Make 4.1
 2. 'docker' version (`docker -v`) : tested with version 18.09.7
 3. 'docker-compose' version (`docker-compose -v`) Tested with version 1.22.0
+
+0. production machine = nrmbirdringing.nrm.se  
+1. URL is set in the docker-compse file ( birdrecoveries.nrm.se )
+2. Proxy handles the certs (see the 'cert'-folder)
+
 
 ***
 
@@ -23,6 +28,7 @@ production machine = nrmbirdringing.nrm.se  <p>
 
 1. bin/refresh-swedishbirdrecoveries.sh
 2. run by cron : `0 4 * * * ~/bin/refresh-swedishbirdrecoveries.sh >> ~/bin/refresh-swedishbirdrecoveries.log 2>&1`
+3. [X] Test
 
 
 ## @reboot 
@@ -32,7 +38,7 @@ production machine = nrmbirdringing.nrm.se  <p>
 
 2020-02-xx; now on the nrmbirdringing machine (now user 'ingierli') <p>
 1. @reboot sleep 60 && su ingierli -l -c "cd repo/swedishbirdrecoveries/docker-compose && make up 
-[ ] Test: reboot the machine, service starts
+2. [ ] Test: reboot the machine, service starts
 
 
 # Observe : URL to fagel3.nrm.se is hardcoded
