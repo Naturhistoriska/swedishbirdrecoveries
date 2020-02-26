@@ -61,3 +61,13 @@ if the file at fagel3.nrm.se cannot be reached then an old sqlite database is us
 see here 
 
 https://github.com/naturhistoriska/swedishbirdrecoveries/blob/master/R/update.R#L91-L101
+
+# Running locally
+
+step-by-step. <p>
+change the url in the docker-compose.test.yml to birdringing-test.nrm.se <p>
+update the file /etc/hosts with (127.0.0.1 birdringing-test.nrm.se)
+
+1. xx
+2. yy
+3. zz
