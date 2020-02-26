@@ -11,16 +11,18 @@ production machine = nrmbirdringing.nrm.se  <p>
 
 # cron
 
-## Script fetching data , every morning at 04:00
+[Information on cron](https://en.wikipedia.org/wiki/Cron)
+
+1. `service crond status`
+2. `service crond stop`
+3. `service crond start`
+4. check the logs -> `grep cron /var/log/syslog`
+
+
+## Every morning at 04:00
 
 1. bin/refresh-swedishbirdrecoveries.sh
 2. run by cron : `0 4 * * * ~/bin/refresh-swedishbirdrecoveries.sh >> ~/bin/refresh-swedishbirdrecoveries.log 2>&1`
-
-[Information on cron](https://en.wikipedia.org/wiki/Cron)
-
-1. service crond status 
-2. service crond stop
-3. service crond start
 
 
 ## @reboot 
