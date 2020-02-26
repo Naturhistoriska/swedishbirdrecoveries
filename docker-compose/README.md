@@ -1,11 +1,13 @@
-# Pre-requirements.
+# pre-requirements.
 
- <p>
+<p>
 
 0. Operating system : Ubuntu 18.04.4 LTS
 1. 'make' version (`make -v`): tested with = GNU Make 4.1
 2. 'docker' version (`docker -v`) : tested with version 18.09.7
 3. 'docker-compose' version (`docker-compose -v`) Tested with version 1.22.0
+
+<p>
 
 0. production machine = nrmbirdringing.nrm.se  
 1. URL is set in the docker-compse file ( birdrecoveries.nrm.se )
@@ -14,7 +16,7 @@
 
 ***
 
-# cron
+# cron and scheduled cron jobs
 
 [Information on cron](https://en.wikipedia.org/wiki/Cron)
 
