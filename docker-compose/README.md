@@ -43,7 +43,16 @@
 2. [ ] Test: reboot the machine, service starts
 
 
-# Observe : URL to fagel3.nrm.se is hardcoded
+# fagel3.nrm.se
+
+## flow from the database, to the csv-file
+WIP
+
+1. time 22:30; csv-file from the database is generated every evening 
+2. time 00:00; timestamp on  the 'aterfynd'-directory 
+
+
+Observe : URL to fagel3.nrm.se is hardcoded in one of the R-classes
 
 https://github.com/naturhistoriska/swedishbirdrecoveries/blob/master/R/update.R#L23 
 
