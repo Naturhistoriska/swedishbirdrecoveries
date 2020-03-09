@@ -1,0 +1,78 @@
+CREATE TABLE `updates` (
+  `update_date` REAL
+);
+CREATE TABLE sqlite_stat1(tbl,idx,stat);
+CREATE TABLE sqlite_stat4(tbl,idx,neq,nlt,ndlt,sample);
+CREATE TABLE `birdrecoveries_eng` (
+  `name` TEXT,
+  `sciname` TEXT,
+  `ringing_sex_code` TEXT,
+  `ringing_sex` TEXT,
+  `ringing_age_code` TEXT,
+  `ringing_age` TEXT,
+  `ringing_date` REAL,
+  `ringing_lat` REAL,
+  `ringing_lon` REAL,
+  `ringing_country` TEXT,
+  `ringing_province` TEXT,
+  `ringing_majorplace` TEXT,
+  `ringing_minorplace` TEXT,
+  `recovery_type` TEXT,
+  `recovery_date` REAL,
+  `recovery_date_accu_code` TEXT,
+  `recovery_date_accu` TEXT,
+  `recovery_lat` REAL,
+  `recovery_lon` REAL,
+  `recovery_coord_accu` TEXT,
+  `recovery_country` TEXT,
+  `recovery_province` TEXT,
+  `recovery_majorplace` TEXT,
+  `recovery_minorplace` TEXT,
+  `distance` INTEGER,
+  `direction` INTEGER,
+  `days` INTEGER,
+  `hours` INTEGER,
+  `recovery_code` INTEGER,
+  `recovery_details` TEXT,
+  `recovery_source` TEXT,
+  `modified_date` REAL
+);
+CREATE TABLE `birdrecoveries_swe` (
+  `name` TEXT,
+  `sciname` TEXT,
+  `ringing_sex_code` TEXT,
+  `ringing_sex` TEXT,
+  `ringing_age_code` TEXT,
+  `ringing_age` TEXT,
+  `ringing_date` REAL,
+  `ringing_lat` REAL,
+  `ringing_lon` REAL,
+  `ringing_country` TEXT,
+  `ringing_province` TEXT,
+  `ringing_majorplace` TEXT,
+  `ringing_minorplace` TEXT,
+  `recovery_type` TEXT,
+  `recovery_date` REAL,
+  `recovery_date_accu_code` TEXT,
+  `recovery_date_accu` TEXT,
+  `recovery_lat` REAL,
+  `recovery_lon` REAL,
+  `recovery_coord_accu` TEXT,
+  `recovery_country` TEXT,
+  `recovery_province` TEXT,
+  `recovery_majorplace` TEXT,
+  `recovery_minorplace` TEXT,
+  `distance` INTEGER,
+  `direction` INTEGER,
+  `days` INTEGER,
+  `hours` INTEGER,
+  `recovery_code` INTEGER,
+  `recovery_details` TEXT,
+  `recovery_source` TEXT,
+  `modified_date` REAL
+);
+CREATE TABLE `birdrecoveries_i18n` (
+  `colname` TEXT,
+  `desc_swe` TEXT,
+  `desc_eng` TEXT
+);
