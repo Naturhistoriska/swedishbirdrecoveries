@@ -42,3 +42,6 @@ vignettes/*.pdf
 # for production, wildcard 
 docker-compose/certs/nrm.se.crt
 docker-compose/certs/nrm.se.key
+
+# logs
+bin/refresh-swedishbirdrecoveries.log
