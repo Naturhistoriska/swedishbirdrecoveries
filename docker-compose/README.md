@@ -8,6 +8,7 @@
 3. 'docker-compose' version (`docker-compose -v`) Tested with version 1.22.0
 
 <p>
+  
 **production machine** <p>
   
 0. production machine = nrmbirdringing.nrm.se  
@@ -16,6 +17,7 @@
 3. Shiny-Application and Proxy are in  the same compose-file (docker-compose.prod.yml) 
 
 <p>
+  
 **stage machine** <p>
   
 0. stage machine = Digital Ocean machine 
@@ -24,6 +26,7 @@
 3. Proxy is running in its own compose-file, the Shiny-Application needs to point to the correct Network
 
 <p>
+  
 **Test machine** <p>
   
 0. stage machine = your local machine
@@ -42,27 +45,29 @@
 3. `service crond start`
 4. check the logs -> `grep cron /var/log/syslog`
 
+## [Production-machine] Crontab -l for root 
 
-## Every morning at 04:00
+`Crontab -l`
 
-1. bin/refresh-swedishbirdrecoveries.sh
-2. run by cron : `0 4 * * * ~/bin/refresh-swedishbirdrecoveries.sh >> ~/bin/refresh-swedishbirdrecoveries.log 2>&1`
-3. [X] Test
+- `0 4 * * * cd /home/ingierli/repos/swedishbirdrecoveries/docker-compose/bin && ./refresh-swedishbirdrecoveries.sh >> ./refresh-swedishbirdrecoveries.log 2>&1`
+- `@reboot sleep 60 && su ingierli -l -c "cd repos/swedishbirdrecoveries/docker-compose && make up`
 
 
-## @reboot 
+### Every morning at 04:00
 
-2020-02-26; on the old-machine (bioatlas machine)  <p>
-1. @reboot sleep 60 && su gbif -l -c "cd repos/ala-docker && make up && make up 
+Runs the refresh-script, fetches data (csv) from fagel3.nrm.se 
 
-2020-02-xx; now on the nrmbirdringing machine (now user 'ingierli') <p>
-1. @reboot sleep 60 && su ingierli -l -c "cd repo/swedishbirdrecoveries/docker-compose && make up 
-2. [ ] Test: reboot the machine, service starts
+
+### @reboot 
+
+from the specified directory, runs `make up`
+
 
 
 # fagel3.nrm.se
 
 ## flow from the database, to the csv-file
+
 WIP
 
 1. time 22:30; csv-file from the database is generated every evening 
