@@ -9,7 +9,7 @@
 
 <p>
   
-**production machine** <p>
+**Production machine** <p>
   
 0. production machine = nrmbirdringing.nrm.se  
 1. URL is set in the docker-compose.prod.yml file (birdrecoveries.nrm.se)
@@ -18,7 +18,7 @@
 
 <p>
   
-**stage machine** <p>
+**Stage machine** <p>
   
 0. stage machine = Digital Ocean machine 
 1. URL is set in the docker-compose.stage.yml file (birdrecoveries.dina-system.org)
@@ -30,8 +30,8 @@
 **Test machine** <p>
   
 0. stage machine = your local machine
-1. URL is set in the docker-compose.test.yml file (test.nrm.se)
-2. Proxy handles the certs 
+1. URL is set in the docker-compose.test.yml file (test.nrm.se) - update your /etc/hosts
+2. Proxy handles the certs (NO Need for cert)
 3. Shiny-Application and Proxy are in  the same compose-file (docker-compose.test.yml)
 
 ***
@@ -49,18 +49,18 @@
 
 `Crontab -l`
 
-- `0 4 * * * cd /home/ingierli/repos/swedishbirdrecoveries/docker-compose/bin && ./refresh-swedishbirdrecoveries.sh >> ./refresh-swedishbirdrecoveries.log 2>&1`
-- `@reboot sleep 60 && su ingierli -l -c "cd repos/swedishbirdrecoveries/docker-compose && make up`
+1. `0 4 * * * cd /home/ingierli/repos/swedishbirdrecoveries/docker-compose/bin && ./refresh-swedishbirdrecoveries.sh >> ./refresh-swedishbirdrecoveries.log 2>&1`
+2.  `@reboot sleep 60 && su ingierli -l -c "cd repos/swedishbirdrecoveries/docker-compose && make up`
 
 
 ### Every morning at 04:00
 
-Runs the refresh-script, fetches data (csv) from fagel3.nrm.se 
+**1** Runs the refresh-script, fetches data (csv) from fagel3.nrm.se 
 
 
 ### @reboot 
 
-from the specified directory, runs `make up`
+**2** from the specified directory, runs `make up`
 
 
 
