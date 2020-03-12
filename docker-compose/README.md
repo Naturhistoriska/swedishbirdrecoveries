@@ -45,9 +45,9 @@
 3. `service crond start`
 4. check the logs -> `grep cron /var/log/syslog`
 
-## [Production-machine] Crontab -l for root 
+## [Production-machine] crontab -l for root 
 
-`Crontab -l`
+login is as root and run  `crontab -l`
 
 1. `0 4 * * * cd /home/ingierli/repos/swedishbirdrecoveries/docker-compose/bin && ./refresh-swedishbirdrecoveries.sh >> ./refresh-swedishbirdrecoveries.log 2>&1`
 2.  `@reboot sleep 60 && su ingierli -l -c "cd repos/swedishbirdrecoveries/docker-compose && make up`
