@@ -8,11 +8,28 @@
 3. 'docker-compose' version (`docker-compose -v`) Tested with version 1.22.0
 
 <p>
-
+**production machine** <p>
+  
 0. production machine = nrmbirdringing.nrm.se  
-1. URL is set in the docker-compse file ( birdrecoveries.nrm.se )
+1. URL is set in the docker-compose.prod.yml file (birdrecoveries.nrm.se)
 2. Proxy handles the certs (see the 'cert'-folder)
+3. Shiny-Application and Proxy are in  the same compose-file (docker-compose.prod.yml) 
 
+<p>
+**stage machine** <p>
+  
+0. stage machine = Digital Ocean machine 
+1. URL is set in the docker-compose.stage.yml file (birdrecoveries.dina-system.org)
+2. Proxy handles the certs (NO certs available for 'dina-system.org' and that is ok)
+3. Proxy is running in its own compose-file, the Shiny-Application needs to point to the correct Network
+
+<p>
+**Test machine** <p>
+  
+0. stage machine = your local machine
+1. URL is set in the docker-compose.test.yml file (test.nrm.se)
+2. Proxy handles the certs 
+3. Shiny-Application and Proxy are in  the same compose-file (docker-compose.test.yml)
 
 ***
 
