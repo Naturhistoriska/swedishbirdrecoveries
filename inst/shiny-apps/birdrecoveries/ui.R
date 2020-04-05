@@ -3,7 +3,6 @@ library(DT)
 library(shinydashboard)
 library(shinyjs)
 
-
 	dbHeader <- dashboardHeader(
 		titleWidth = 450,
 		title = "Återfynd - Swedish Bird Recoveries", disable = FALSE,
@@ -87,6 +86,7 @@ function(request) {
 
 
 	body2 <- dashboardBody(
+
 		tabItems(
 			tabItem(
 				tabName = 'menu1'
@@ -177,9 +177,11 @@ body2 <- dashboardBody(
 	)
 )
 
+# IE:	adding 'matotomo tracking-id'
 dashBody <- dashboardBody(
 	#tags$style(type = "text/css", "#birdmap {height: calc(100vh - 120px) !important;}"),
 	tags$head(
+  tags$head(includeHTML(("matomo.html"))),
 	tags$style(type = "text/css", "#mapbox { height: 80vh !important; }"),
 	tags$style(type = "text/css", "#birdmap { height: 75vh !important; }")),
 #	tags$style(type = "text/css", "#tabset1 { height: 80vh !important; }"),
