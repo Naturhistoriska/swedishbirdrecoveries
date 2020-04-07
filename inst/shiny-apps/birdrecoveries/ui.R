@@ -181,7 +181,7 @@ body2 <- dashboardBody(
 dashBody <- dashboardBody(
 	#tags$style(type = "text/css", "#birdmap {height: calc(100vh - 120px) !important;}"),
 	tags$head(
-  tags$head(includeHTML(("matomo.html"))),
+  tags$head(includeHTML(("matomo7april.html"))),
 	tags$style(type = "text/css", "#mapbox { height: 80vh !important; }"),
 	tags$style(type = "text/css", "#birdmap { height: 75vh !important; }")),
 #	tags$style(type = "text/css", "#tabset1 { height: 80vh !important; }"),
