@@ -95,3 +95,15 @@ Meta
 -   Please [report any requests, issues or bugs](https://github.com/Naturhistoriska/swedishbirdrecoveries/issues) 
 -   [Older issues, see this repo](https://github.com/mskyttner/swedishbirdrecoveries/issues).
 -   License: Affero GPL v3
+
+
+# Docker
+
+Dockerfile
+---
+/usr/local/lib/R/site-library/swedishbirdrecoveries/shiny-apps/birdrecoveries 
+
+
+# Matomo
+Matomo is used for analytics since april 2020
+https://matomo.org/ 
