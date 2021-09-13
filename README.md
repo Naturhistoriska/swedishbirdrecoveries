@@ -105,5 +105,4 @@ Dockerfile
 
 
 # Matomo
-Matomo is used for analytics since april 2020
-https://matomo.org/ 
+Matomo is used for tracking/analytics since april 2020, see more at -> https://matomo.org/ 
