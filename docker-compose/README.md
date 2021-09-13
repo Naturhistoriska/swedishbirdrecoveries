@@ -2,9 +2,9 @@
 <p>
 
 See build script in `/Dockerfile/docker-build.sh` , where you write in next `version`
-- docker build -t inkimar/shiny:v0.1.2 . (ex version = v0.1.2)
-- docker push inkimar/shiny:v0.1.2 (ex version = v0.1.2)
-- docker exec -it shiny bash
+- build - docker build -t inkimar/shiny:v0.1.2 . (ex version = v0.1.2)
+- push - docker push inkimar/shiny:v0.1.2 (ex version = v0.1.2)
+- how to login to a container - docker exec -it shiny bash
 
 <p>
 
