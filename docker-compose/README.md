@@ -13,6 +13,10 @@ See build script in `/Dockerfile/docker-build.sh` , where you write in next `ver
 2. 'docker' version (`docker -v`) : tested with version 18.09.7
 3. 'docker-compose' version (`docker-compose -v`) Tested with version 1.22.0
 
+## local machine.
+- set the URL to for instance to : birdrecoveries-local.nrm.se 
+- /etc/hosts
+
 <p>
   
 ## Production machine
