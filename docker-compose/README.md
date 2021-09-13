@@ -1,13 +1,13 @@
 # pre-requirements.
 <p>
 
+## Docker ; Build, Push to docker-hub and login to container
 See build script in `/Dockerfile/docker-build.sh` , where you write in next `version`
 - build - docker build -t inkimar/shiny:v0.1.2 . (ex version = v0.1.2)
 - push - docker push inkimar/shiny:v0.1.2 (ex version = v0.1.2)
 - how to login to a container - docker exec -it shiny bash
 
-<p>
-
+## check
 0. Operating system : Ubuntu 18.04.4 LTS
 1. 'make' version (`make -v`): tested with = GNU Make 4.1
 2. 'docker' version (`docker -v`) : tested with version 18.09.7
@@ -15,25 +15,21 @@ See build script in `/Dockerfile/docker-build.sh` , where you write in next `ver
 
 <p>
   
-**Production machine** <p>
+## Production machine
   
 0. production machine = nrmbirdringing.nrm.se  
 1. URL is set in the docker-compose.prod.yml file (birdrecoveries.nrm.se)
 2. Proxy handles the certs (see the 'cert'-folder)
 3. Shiny-Application and Proxy are in  the same compose-file (docker-compose.prod.yml) 
 
-<p>
-  
-**Stage machine** <p>
+## Stage machine
   
 0. stage machine = Digital Ocean machine 
 1. URL is set in the docker-compose.stage.yml file (birdrecoveries.dina-system.org)
 2. Proxy handles the certs (NO certs available for 'dina-system.org' and that is ok)
 3. Proxy is running in its own compose-file, the Shiny-Application needs to point to the correct Network
 
-<p>
-  
-**Test machine** <p>
+## Test machine
   
 0. stage machine = your local machine
 1. URL is set in the docker-compose.test.yml file (test.nrm.se) - update your /etc/hosts
