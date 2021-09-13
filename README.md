@@ -46,7 +46,7 @@ You can get started by installing from Github:
 
 ``` r
 install.packages("devtools")
-devtools::install_github("mskyttner/swedishbirdrecoveries")
+devtools::install_github("Naturhistoriska/swedishbirdrecoveries")
 
 # load the package
 library(swedishbirdrecoveries)
@@ -85,6 +85,17 @@ Given recoveries per species, what would a kernel look like?
 
 ### Potential other searches
 
+# Docker
+
+Dockerfile
+---
+/usr/local/lib/R/site-library/swedishbirdrecoveries/shiny-apps/birdrecoveries 
+
+
+# Matomo
+Matomo is used for tracking/analytics since april 2020, see more at -> https://matomo.org/ 
+
+--- 
 TODO: write section here
 
 Meta
