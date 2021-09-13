@@ -48,7 +48,7 @@ You can get started by installing from Github:
 
 ``` r
 install.packages("devtools")
-devtools::install_github("mskyttner/swedishbirdrecoveries")
+devtools::install_github("Naturhistoriska/swedishbirdrecoveries")
 
 # load the package
 library(swedishbirdrecoveries)
