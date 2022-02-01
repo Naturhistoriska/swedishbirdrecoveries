@@ -47,15 +47,15 @@ login is as root and run  `crontab -l`
 2.  `@reboot sleep 60 && su ingierli -l -c "cd repos/swedishbirdrecoveries/docker-compose && make up`
 
 
-### Every morning at 04:00
+### CRON: Every morning at 04:00
 
-1. Runs the refresh-script, fetches data (csv) from fagel3.nrm.se
+1. pre-requisite: see the export from the DB to the machine `fagel3.nrm.se`
+2. Runs the refresh-script, fetches data (csv) from fagel3.nrm.se
 
 
-### @reboot 
+### CRON: @reboot 
 
 **2** from the specified directory, runs `make up`
-
 
 
 # fagel3.nrm.se
