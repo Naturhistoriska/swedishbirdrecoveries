@@ -61,13 +61,13 @@ login is as root and run  `crontab -l`
 # fagel3.nrm.se
 
 ## flow from the database, to the csv-file
-
-WIP
+- see the 'pipeline-document' for more detailed description (shared disk)
+- 1:st troubleshooting : (A) is the file `SQLDataExport.csv` present (B) Check the datestamp on the file
 
 1. time 22:30; csv-file from the database  is generated every evening 
 2. Directory: `fagel3.nrm.se/fagel/aterfynd/SQLDataExport.csv`
-3. time 00:00; timestamp on  the 'aterfynd'-directory 
 
+***
 
 Observe : URL to fagel3.nrm.se is hardcoded in one of the R-classes
 
