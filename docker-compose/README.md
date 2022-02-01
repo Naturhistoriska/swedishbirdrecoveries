@@ -65,7 +65,7 @@ login is as root and run  `crontab -l`
 WIP
 
 1. time 22:30; csv-file from the database  is generated every evening 
-2. fagel3.nrm.se/fagel/aterfynd/SQLDataExport.csv	
+2. Directory: `fagel3.nrm.se/fagel/aterfynd/SQLDataExport.csv`
 3. time 00:00; timestamp on  the 'aterfynd'-directory 
 
 
