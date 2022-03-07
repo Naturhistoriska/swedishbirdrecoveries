@@ -107,6 +107,8 @@ Dockerfile
 # Matomo
 Matomo is used for tracking/analytics since april 2020, see more at -> https://matomo.org/ 
 
+## Configuration
+2022-03-07 ->Matomo is running on the matomo.dina-web.net
 
 **ui.R holds the matomo7april.html**
 ```
@@ -118,4 +120,23 @@ dashBody <- dashboardBody(
 	tags$style(type = "text/css", "#birdmap { height: 75vh !important; }")),
 	uiOutput("tab_box")
 )
+```
+
+**contents of the matomo7april.html** 
+```
+<!-- Matomo -->
+<script type="text/javascript">
+  var _paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//matomo.dina-web.net/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Matomo Code -->
 ```
