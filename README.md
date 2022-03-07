@@ -106,3 +106,16 @@ Dockerfile
 
 # Matomo
 Matomo is used for tracking/analytics since april 2020, see more at -> https://matomo.org/ 
+
+
+**ui.R holds the matomo7april.html**
+```
+# IE:	adding 'matotomo tracking-id'
+dashBody <- dashboardBody(
+	tags$head(
+  tags$head(includeHTML(("matomo7april.html"))),
+	tags$style(type = "text/css", "#mapbox { height: 80vh !important; }"),
+	tags$style(type = "text/css", "#birdmap { height: 75vh !important; }")),
+	uiOutput("tab_box")
+)
+```
