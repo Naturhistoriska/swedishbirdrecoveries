@@ -43,9 +43,10 @@
 
 login is as root and run  `crontab -l`
 
-1. `0 4 * * * cd /home/ingierli/repos/swedishbirdrecoveries/docker-compose/bin && ./refresh-swedishbirdrecoveries.sh >> ./refresh-swedishbirdrecoveries.log 2>&1`
-2.  `@reboot sleep 60 && su ingierli -l -c "cd repos/swedishbirdrecoveries/docker-compose && make up`
-
+```
+0 4 * * * cd /home/s-research/repos/swedishbirdrecoveries/docker-compose/bin && ./refresh-swedishbirdrecoveries.sh >> ./refresh-swedishbirdrecoveries.log 2>&1
+@reboot sleep 60 && su s-research -l -c "cd repos/swedishbirdrecoveries/docker-compose && make up"
+```  
 
 ### CRON: Every morning at 04:00
 
