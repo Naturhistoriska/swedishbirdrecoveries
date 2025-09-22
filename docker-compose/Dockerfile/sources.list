@@ -1,3 +1,0 @@
-deb http://cdn-fastly.deb.debian.org/debian stretch main
-deb http://cdn-fastly.deb.debian.org/debian stretch-updates main
-deb http://cdn-fastly.deb.debian.org/debian-security stretch/updates main
