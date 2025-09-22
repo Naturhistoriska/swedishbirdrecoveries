@@ -4,13 +4,15 @@
 \name{birdrecoveries_i18n}
 \alias{birdrecoveries_i18n}
 \title{Dataset birdrecoveries_i18n}
-\format{A data frame
+\format{
+A data frame
 \describe{
   \item{colname}{Field}
   \item{desc_swe}{Translation in Swedish}
   \item{desc_eng}{Translation in English}
   ...
-  }}
+  }
+}
 \source{
 \url{}
 }

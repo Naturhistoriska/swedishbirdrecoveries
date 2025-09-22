@@ -14,4 +14,12 @@ The data included is provided from The Swedish Natural History Museum.
 \examples{
 #see functions.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/Naturhistoriska/swedishbirdrecoveries}
+  \item Report bugs at \url{https://github.com/Naturhistoriska/swedishbirdrecoveries/issues}
+}
+
+}
 \keyword{package}

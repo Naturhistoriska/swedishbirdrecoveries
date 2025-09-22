@@ -4,7 +4,8 @@
 \name{birdrecoveries_eng}
 \alias{birdrecoveries_eng}
 \title{Dataset birdrecoveries_eng}
-\format{A data frame
+\format{
+A data frame
 \describe{
   \item{name}{Vernacular}
   \item{sciname}{Scientific Name}
@@ -39,7 +40,8 @@
   \item{source}{Source}
   \item{modified_date}{Registration Date}
   ...
-}}
+}
+}
 \source{
 \url{http://fagel3.nrm.se/fagel/aterfynd/SQLDataExport.csv}
 }

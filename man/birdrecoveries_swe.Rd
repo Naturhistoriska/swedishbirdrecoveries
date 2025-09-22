@@ -4,7 +4,8 @@
 \name{birdrecoveries_swe}
 \alias{birdrecoveries_swe}
 \title{Dataset birdrecoveries_swe}
-\format{A data frame
+\format{
+A data frame
 \describe{
   \item{name}{Art}
   \item{sciname}{Binomen}
@@ -39,7 +40,8 @@
   \item{source}{Källa}
   \item{modified_date}{Registerdatum}
   ...
-  }}
+  }
+}
 \source{
 \url{http://fagel3.nrm.se/fagel/aterfynd/SQLDataExport.csv}
 }
