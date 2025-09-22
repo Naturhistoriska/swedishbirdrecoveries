@@ -1,7 +1,8 @@
 library(lubridate)
 # deploy to shiny in root context
-#ln -s /usr/local/lib/R/site-library/swedishbirdrecoveries/shiny-apps/birdrecoveries/* .
+# ln -s /usr/local/lib/R/site-library/swedishbirdrecoveries/shiny-apps/birdrecoveries/* .
 library(swedishbirdrecoveries)
+library(leaflet.extras)
 
 # library(DBI)
 # library(RSQLite)
@@ -10,12 +11,12 @@ data("birdrecoveries_eng")
 data("birdrecoveries_swe")
 data("birdrecoveries_i18n")
 
-#shinyServer(function(input, output) {
+# shinyServer(function(input, output) {
 
 server <- function(input, output, session) {
-	#sex <- birds %>% distinct(ringing_sex) %>% .$ringing_sex
-	#age <- birds %>% distinct(ringing_age) %>% .$ringing_age
-	#code <- birds %>% distinct(recovery_code) %>% .$recovery_code
+	# sex <- birds %>% distinct(ringing_sex) %>% .$ringing_sex
+	# age <- birds %>% distinct(ringing_age) %>% .$ringing_age
+	# code <- birds %>% distinct(recovery_code) %>% .$recovery_code
 	cmin <- function(x)
 		floor(min(x, na.rm = TRUE))
 	cmax <- function(x)
@@ -26,7 +27,7 @@ server <- function(input, output, session) {
 
 		b <- birds()
 
-		#message("birds() has ", nrow(b), " rows")
+		# message("birds() has ", nrow(b), " rows")
 
 		filter_species <- input$species
 		filter_source <- input$source
@@ -53,67 +54,98 @@ server <- function(input, output, session) {
 
 		# Optional filters
 
-		if (length(filter_species) > 0)
+		if (length(filter_species) > 0) {
 			b <- b %>% filter(name %in% filter_species)
+		}
 
-		if (length(filter_source) > 0)
+		if (length(filter_source) > 0) {
 			b <- b %>% filter(recovery_source %in% filter_source)
+		}
 
-		if (length(filter_lat_min) > 0 && length(filter_lat_max) > 0)
+		if (length(filter_lat_min) > 0 && length(filter_lat_max) > 0) {
 			b <- b %>% filter(recovery_lat <= filter_lat_max,
 												recovery_lat >= filter_lat_min)
+		}
 
-		if (length(filter_lon_min) > 0 && length(filter_lon_max) > 0)
+		if (length(filter_lon_min) > 0 && length(filter_lon_max) > 0) {
 			b <- b %>% filter(recovery_lon <= filter_lon_max,
 												recovery_lon >= filter_lon_min)
+		}
 
-		if (length(filter_country) > 0)
+		if (length(filter_country) > 0) {
 			b <- b %>% filter(recovery_country %in% filter_country)
+		}
 
-		if (length(filter_months) > 0)
+		if (length(filter_months) > 0) {
 			b <- b %>% filter(month.name[month(recovery_date)] %in% filter_months)
+		}
 
-		if (length(filter_years) > 0)
+		if (length(filter_years) > 0) {
 			b <- b %>% filter(year(recovery_date) %in% filter_years)
-
+		}
 		hits <- nrow(b)
-		status_swe <- paste0("Nuvarande urval: ",
-												 hits,
-												 " (visar max 12000 av de senaste återfynden)")
-		status_eng <- paste0("Current selection: ",
-												 hits,
-												 " (displaying max 12000 of the most recent recoveries)")
-		status <- status_eng
-		if (filter_lang == "Svenska")
-			status <- status_swe
+		max_rows_raw <- Sys.getenv("MAX_ROWS", "40000")
+
+		if (toupper(max_rows_raw) %in% c("0", "ALL", "INF")) {
+			max_rows <- Inf   # no limit
+		} else {
+			max_rows <- as.integer(max_rows_raw)
+		}
+
+		if (is.finite(max_rows)) {
+			status_swe <- paste0("Nuvarande urval: ",
+													 hits,
+													 " (visar max ",
+													 max_rows,
+													 " av de senaste återfynden)")
+			status_eng <- paste0(
+				"Current selection: ",
+				hits,
+				" (displaying max ",
+				max_rows,
+				" of the most recent recoveries)"
+			)
+		} else {
+			status_swe <- paste0("Nuvarande urval: ", hits, " (visar alla återfynd)")
+			status_eng <- paste0("Current selection: ", hits, " (displaying all recoveries)")
+		}
+
+		status <- if (filter_lang == "Svenska")
+			status_swe
+		else
+			status_eng
 		message("status: ", status)
 
-		b <- b %>% arrange(desc(recovery_date)) %>% head(40001)
+		b <- b %>%
+			arrange(desc(recovery_date)) %>%
+			head(max_rows)
+
 		res <- list(status = status, df = b)
 
-		return (res)
+		return(res)
 	})
 
 	lang <- reactive({
 		req(input$lang)
-		if (input$lang == "Svenska")
-			return ("swe")
-		if (input$lang == "English")
-			return ("eng")
+		if (input$lang == "Svenska") {
+			return("swe")
+		}
+		if (input$lang == "English") {
+			return("eng")
+		}
 	})
 
 	birds <- reactive({
 		get(paste0("birdrecoveries_", lang()))
 		#  	req(input$lang)
 		#  	if (input$lang == "Svenska") return (birdrecoveries_swe)
-		#		return (birdrecoveries_eng)
-
+		# 		return (birdrecoveries_eng)
 	})
 
 	output$lang <- renderUI({
 		radioButtons(
 			inputId = "lang",
-			width = '300px',
+			width = "300px",
 			inline = TRUE,
 			label = NULL,
 			choices = c("English", "Svenska"),
@@ -123,47 +155,60 @@ server <- function(input, output, session) {
 
 	output$species <- renderUI({
 		#  	req(birds())
-		species <- birds() %>% distinct(name) %>% arrange(name) %>% .$name
-		sciname <- birds() %>% distinct(sciname) %>% .$sciname
+		species <- birds() %>%
+			distinct(name) %>%
+			arrange(name) %>%
+			.$name
+		sciname <- birds() %>%
+			distinct(sciname) %>%
+			.$sciname
 		#    if (is.null(species)) return()
 		default_species <-
-			birds() %>% filter(sciname == "Erithacus rubecula") %>%
-			select(name) %>% distinct %>% .$name
+			birds() %>%
+			filter(sciname == "Erithacus rubecula") %>%
+			select(name) %>%
+			distinct() %>%
+			.$name
 		selectizeInput(
 			"species",
 			label = i18n("name", lang()),
 			choices = species,
 			selected = default_species,
 			multiple = TRUE,
-			options = list(maxItems = 20)#,
+			options = list(maxItems = 20) # ,
 		)
 	})
 
 	output$source <- renderUI({
 		# 	req(birds())
-		source <- birds() %>% distinct(recovery_source) %>% .$recovery_source
+		source <- birds() %>%
+			distinct(recovery_source) %>%
+			.$recovery_source
 		#  if (is.null(source)) return()
 		selectizeInput(
 			"source",
 			label = i18n("recovery_source", lang()),
 			choices = source,
 			multiple = TRUE,
-			options = list(maxItems = 20)#,
+			options = list(maxItems = 20) # ,
 		)
 	})
 
 	output$country <- renderUI({
-		country <- birds() %>% distinct(recovery_country) %>% arrange(recovery_country) %>% .$recovery_country
-		if (is.null(country))
+		country <- birds() %>%
+			distinct(recovery_country) %>%
+			arrange(recovery_country) %>%
+			.$recovery_country
+		if (is.null(country)) {
 			return()
+		}
 		selectizeInput(
 			"country",
 			label = i18n("recovery_country", lang()),
 			choices = country,
 			multiple = TRUE,
-			options = list(maxItems = 20)#,
+			options = list(maxItems = 20) # ,
 		)
-
 	})
 
 	output$months <- renderUI({
@@ -286,7 +331,7 @@ server <- function(input, output, session) {
 				)
 			)
 
-		popup_content <- #htmltools::htmlEscape(
+		popup_content <- # htmltools::htmlEscape(
 			paste(
 				sep = "",
 				"<b>",
@@ -320,37 +365,48 @@ server <- function(input, output, session) {
 				"<br/>"
 			)
 
-		map <-
-			leaflet(data = out) %>%
-			#       addProviderTiles("Stamen.TonerLite", group = "Gray") %>%
-			#      addProviderTiles("Esri.WorldGrayCanvas", group = "Gray") %>%
-			#      addProviderTiles("OpenStreetMap.BlackAndWhite", group = "Black & White") %>%
-			addTiles(
-				urlTemplate = "//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-				options = tileOptions(maxZoom = 18),
-				group = "Gray",
-				layerId = "test"
-			) %>%
-			#  addMarkers(~longitude, ~latitude, popup = ~as.character(dgr), group = "Individual") %>%
+
+		leaflet(data = out) %>%
+			# OpenStreetMap
+			addProviderTiles("OpenStreetMap", group = "OSM") %>%
+			# Carto Dark
+			addProviderTiles("CartoDB.DarkMatter", group = "Carto Dark") %>%
+			# Carto Light
+			addProviderTiles("CartoDB.Positron", group = "Carto Light") %>%
+			# clustered points
 			addMarkers(
 				~ recovery_lon,
 				~ recovery_lat,
 				popup = popup_content,
 				clusterOptions = markerClusterOptions(),
 				group = "Clustered"
-			) #%>%
-		#      addLayersControl(
-		#        baseGroups = c("Gray", "Black & White"),
-		#    overlayGroups = c("Individual", "Clustered"),
-		#        options = layersControlOptions(collapsed = FALSE)
-		#      )
-
-		#map$height <- "100%"
-		#map$sizingPolicy$defaultHeight <- "100%"
-		#message(str(map))
-		map
+			) %>%
+			# plain (non-clustered) markers
+			addCircleMarkers(
+				~ recovery_lon,
+				~ recovery_lat,
+				radius = 4,
+				color = "blue",
+				popup = popup_content,
+				group = "Points"
+			) %>%
+			# heatmap layer
+			leaflet.extras::addHeatmap(
+				lng = ~ recovery_lon,
+				lat = ~ recovery_lat,
+				blur = 20,
+				max = 0.05,
+				radius = 15,
+				group = "Heatmap"
+			) %>%
+			# add layer control
+			addLayersControl(
+				baseGroups = c("OSM", "Carto Light", "Carto Dark"),
+				overlayGroups = c("Clustered", "Points", "Heatmap"),
+				options = layersControlOptions(collapsed = TRUE)
+			) %>%
+			hideGroup(c("Points", "Heatmap"))
 	})
-
 	output$table <- DT::renderDataTable({
 		# show a subset of relevant columns
 		out <- df()$df %>%
@@ -398,7 +454,7 @@ server <- function(input, output, session) {
 					ifelse(lang() == "swe", "Karta", "Map"),
 					leafletOutput("birdmap")
 				),
-				#tags$head(tags$style(HTML(" #mapbox { height:85vh !important; } "#))),
+				# tags$head(tags$style(HTML(" #mapbox { height:85vh !important; } "#))),
 				# 				leafletOutput("birdmap", width = "100%"))),
 				tabPanel(
 					ifelse(lang() == "swe", "Tabell", "Table"),
@@ -418,25 +474,25 @@ server <- function(input, output, session) {
 			#  		tabItem(tabName = "latest", leafletOutput("birdmap", height = "100%", width = "100%")),
 			#  		tabItem(tabName = "about", uiOutput("menu2_UI")),
 			tabItem(tabName = "all", box(
-				#tags$head(tags$style(HTML(" #mapbox { height:85vh !important; } "))),
+				# tags$head(tags$style(HTML(" #mapbox { height:85vh !important; } "))),
 				id = "mapbox",
 				width = 12,
 				leafletOutput("birdmap", width = "100%")
-			)) #, height = "100%"))
+			)) # , height = "100%"))
 		)
 	})
 
 
-	output$body_UI <- renderUI ({
+	output$body_UI <- renderUI({
 		p("Default content in body outsite any sidebar menus.")
 	})
 
-	output$menu1_UI <- renderUI ({
+	output$menu1_UI <- renderUI({
 		res <- includeHTML("www/about_eng.html")
 		fluidRow(box(res, width = 12))
 	})
 
-	output$menu2_UI <- renderUI ({
+	output$menu2_UI <- renderUI({
 		message("Lang is: ", lang())
 		if (input$lang != "Svenska") {
 			res <- includeHTML("www/about_eng.html")
@@ -450,12 +506,11 @@ server <- function(input, output, session) {
 	output$mytabitems <- renderUI({
 		tabItems(
 			tabItem(
-				tabName = 'menu1'
-				,
+				tabName = "menu1",
 				tags$a(
 					id = "mydiv",
 					href = "#",
-					'click me',
+					"click me",
 					onclick = 'Shiny.onInputChange("mydata", Math.random());'
 				)
 			),
@@ -467,9 +522,9 @@ server <- function(input, output, session) {
 			tabItem(tabName = "latest", h2("Latest tab content")),
 			tabItem(
 				tabName = "all",
-				#helpText(df()$status),
-				#br(),
-				#leafletOutput("birdmap", width = "100%", height = "100%")
+				# helpText(df()$status),
+				# br(),
+				# leafletOutput("birdmap", width = "100%", height = "100%")
 				leafletOutput("birdmap")
 			)
 		)
@@ -479,10 +534,10 @@ server <- function(input, output, session) {
 		myTabs <- list(
 			tabPanel(
 				title = i18n("ui_tab_map_label", lang()),
-				#				helpText(i18n("ui_tab_map_help", lang())),
+				# 				helpText(i18n("ui_tab_map_help", lang())),
 				helpText(df()$status),
 				br(),
-				#leafletOutput("birdmap")
+				# leafletOutput("birdmap")
 				leafletOutput("birdmap", width = "100%", height = "100%")
 			),
 			#   	tabPanel(i18n("ui_tab_table_label", lang()),
@@ -498,7 +553,7 @@ server <- function(input, output, session) {
 			# ),
 			tabPanel(
 				i18n("ui_tab_about_label", lang()),
-				helpText(i18n("ui_tab_about_help", lang()))  #,
+				helpText(i18n("ui_tab_about_help", lang())) # ,
 				# if (lang() != "swe") {
 				# 	includeHTML("www/about_eng.html")
 				# } else {
