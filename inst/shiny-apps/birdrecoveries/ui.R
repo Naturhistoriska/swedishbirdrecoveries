@@ -4,86 +4,34 @@ library(shinydashboard)
 library(shinyjs)
 
 	dbHeader <- dashboardHeader(
+
 		titleWidth = 450,
 		title = "Återfynd - Swedish Bird Recoveries", disable = FALSE,
-		tags$li(a(href = 'https://www.nrm.se/faktaomnaturenochrymden/djur/faglar/fagelringar.1289.html',
-				img(src = "birds.png", height = 30, width = 30),
-				title = "Ring!",
-				style = "padding-top:10px; padding-bottom:10px;"),
-			class = "dropdown"),
-		tags$li(a(href = 'https://www.nrm.se/forskningochsamlingar/miljoforskningochovervakning/ringmarkningscentralen.214.html',
-				img(src = 'logo.png', height = 30, width = 30),
-				title = "Ringmärkingscentralen",
-				style = "padding-top:10px; padding-bottom:10px;"),
-			class = "dropdown"),
-		tags$li(a(href = 'https://nrm.se',
-				img(src = "nrm-logo-white.png", height = 30, width = 30),
-				title = "Swedish Museum of Natural History / Naturhistoriska Riksmuseet",
-				style = "padding-top:10px; padding-bottom:10px;"),
-			class = "dropdown")
+
+		# tags$li(a(href = 'https://www.nrm.se/faktaomnaturenochrymden/djur/faglar/fagelringar.1289.html',
+		# 		img(src = "birds.png", height = 30, width = 30),
+		# 		title = "Ring!",
+		# 		style = "padding-top:10px; padding-bottom:10px;"),
+		# 	class = "dropdown"),
+		# tags$li(a(href = 'https://www.nrm.se/RC',
+		# 		 img(src = 'logo.png', height = 50, width = 50),
+		# 		title = "Ringmärkningscentralen",
+		# 		style = "padding-top:10px; padding-bottom:10px;"),
+		# 	class = "dropdown")
+
+		tags$li(a(href = 'https://www.nrm.se/RC',
+							"Länk till Ringmärkningscentralen",
+							style = "padding-top:10px; padding-bottom:10px"),
+							class= "dropdown")
+
+		# tags$li(a(href = 'https://nrm.se',
+		# 		img(src = "nrm-logo-white.png", height = 40, width = 40),z
+		# 		title = "Swedish Museum of Natural History / Naturhistoriska Riksmuseet",
+		# 		style = "padding-top:10px; padding-bottom:10px;"),
+		# 	class = "dropdown")
 	)
 
 function(request) {
-
-# shinyUI(fluidPage(
-#   theme = shinythemes::shinytheme("spacelab"),
-#   tags$head(tags$link(rel="shortcut icon", href="favicon.ico")),
-#   #titlePanel("Swedish Bird Recoveries / Återfynd"),
-#  	tags$style(type = "text/css", "#birdmap {height: calc(100vh - 110px) !important;}"),
-#   sidebarLayout(
-#     sidebarPanel(
-#     	img(src = "logo.png", height = 50),
-#     	img(src = "nrm-logo-white.png", height = 50),
-#     	img(src = "birds.png", height = 50),
-#     	hr(),
-#       uiOutput("species"),
-#       uiOutput("country"),
-#       uiOutput("lats"),
-#       uiOutput("lons"),
-# #      uiOutput("source"),
-# #    	flowLayout(
-# #    		uiOutput("months"),
-# #    		uiOutput("years")
-# #    	),
-#     	uiOutput("lang")
-#     ),
-#
-#     mainPanel(
-#     	uiOutput("mytabs")
-#     )
-#   )
-# ))
-
-
-	# shinyUI(fluidPage(
-	#   theme = shinythemes::shinytheme("spacelab"),
-	#   tags$head(tags$link(rel="shortcut icon", href="favicon.ico")),
-	#   #titlePanel("Swedish Bird Recoveries / Återfynd"),
-	#  	tags$style(type = "text/css", "#birdmap {height: calc(100vh - 110px) !important;}"),
-	#   sidebarLayout(
-	#     sidebarPanel(
-	#     	img(src = "logo.png", height = 50),
-	#     	img(src = "nrm-logo-white.png", height = 50),
-	#     	img(src = "birds.png", height = 50),
-	#     	hr(),
-	#       uiOutput("species"),
-	#       uiOutput("country"),
-	#       uiOutput("lats"),
-	#       uiOutput("lons"),
-	# #      uiOutput("source"),
-	# #    	flowLayout(
-	# #    		uiOutput("months"),
-	# #    		uiOutput("years")
-	# #    	),
-	#     	uiOutput("lang")
-	#     ),
-	#
-	#     mainPanel(
-	#     	uiOutput("mytabs")
-	#     )
-	#   )
-	# ))
-
 
 	body2 <- dashboardBody(
 
@@ -102,6 +50,7 @@ function(request) {
 	)
 
 	dashBody <- dashboardBody(
+
 		#tags$style(type = "text/css", "#birdmap {height: calc(100vh - 120px) !important;}"),
 		tags$head(
 		tags$style(type = "text/css", "#mapbox { height: 80vh !important; }"),
@@ -113,6 +62,7 @@ function(request) {
 	)
 
 	dashboardPage(
+
 		dbHeader,
 	#	dashboardHeader(titleWidth = 450, title = "Återfynd - Swedish Bird Recoveries", disable = FALSE),
 		dashboardSidebar(width = 450,
@@ -142,22 +92,6 @@ function(request) {
 			)
 		),
 		dashBody
-			#tags$style(type = "text/css", ".box-body {height:80vh !important;}"),
-			# note the -180px below is a magic constant found through empirical iterations
-			# with dashboardHeader, it is more approx
-	#tags$style(type = "text/css", "#birdmap {height: calc(100vh - 250px) !important;}"),
-	#		tags$style(type = "text/css", "#birdmap {height: calc(100vh - 180px) #!important;}"),
-	#		fluidRow(uiOutput("mytabs"))
-	#		fluidRow(
-	#			tabBox(
-	#				id = "tabset1", width = 12,
-	#				uiOutput("mytabitems")
-	#			)
-	#		)
-
-	#	box(uiOutput("birdmap"))
-
-
 	)
 }
 
@@ -179,6 +113,21 @@ body2 <- dashboardBody(
 
 # IE:	adding 'matotomo tracking-id'
 dashBody <- dashboardBody(
+
+	tags$head(
+		tags$style(HTML("
+        .skin-blue .main-header .navbar {
+          background-color: #5499c7    ;
+        }
+        .skin-blue .main-header .logo {
+          background-color: #1a5276 ;
+        }
+        .skin-blue .main-sidebar {
+          background-color: #283747 ;
+        }
+      "))
+		),
+
 	#tags$style(type = "text/css", "#birdmap {height: calc(100vh - 120px) !important;}"),
 	tags$head(
   tags$head(includeHTML(("matomo7april.html"))),
@@ -190,8 +139,8 @@ dashBody <- dashboardBody(
 )
 
 dashboardPage(
+
 	dbHeader,
-#	dashboardHeader(titleWidth = 450, title = "Återfynd - Swedish Bird Recoveries", disable = FALSE),
 	dashboardSidebar(width = 450,
 		uiOutput("lang"),
 		hr(),
@@ -217,20 +166,5 @@ dashboardPage(
 		)
 	),
 	dashBody
-		#tags$style(type = "text/css", ".box-body {height:80vh !important;}"),
-		# note the -180px below is a magic constant found through empirical iterations
-		# with dashboardHeader, it is more approx
-#tags$style(type = "text/css", "#birdmap {height: calc(100vh - 250px) !important;}"),
-#		tags$style(type = "text/css", "#birdmap {height: calc(100vh - 180px) #!important;}"),
-#		fluidRow(uiOutput("mytabs"))
-#		fluidRow(
-#			tabBox(
-#				id = "tabset1", width = 12,
-#				uiOutput("mytabitems")
-#			)
-#		)
-
-#	box(uiOutput("birdmap"))
-
 
 )
