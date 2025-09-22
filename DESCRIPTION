@@ -1,19 +1,17 @@
 Package: swedishbirdrecoveries
 Type: Package
 Title: Swedish Bird Recoveries (Data and User Interface)
-Version: 0.1.7
-Author: Markus Skyttner <markus.skyttner@nrm.se>
-Maintainer: Markus Skyttner <markus.skyttner@nrm.se>
-Authors@R: person("Markus", "Skyttner", role = c("cre", "aut"), email = "markus.skyttner@nrm.se")
-URL: https://github.com/mskyttner/swedishbirdrecoveries
-BugReports: https://github.com/mskyttner/swedishbirdrecoveries/issues
-Description: Data for recaptured birds from the Swedish Museum for
-    Natural History.
+Version: 0.1.8
+Author: Swedish Museum of Natural History
+Maintainer:  Swedish Museum of Natural History <bird.ringing@nrm.se>
+URL: https://github.com/Naturhistoriska/swedishbirdrecoveries
+BugReports: https://github.com/Naturhistoriska/swedishbirdrecoveries/issues
+Description: Data for recaptured birds from the Swedish Museum of Natural History.
 License: file LICENSE
 Date: 2017-11-14
 Encoding: UTF-8
 LazyData: false
-RoxygenNote: 6.0.1
+RoxygenNote: 7.3.2
 Depends:
     R (>= 3.3.1),
     dplyr (>= 0.7.0)
@@ -36,6 +34,8 @@ Imports:
     purrr (>= 0.2.2.2),
     httr (>= 1.2.1),
     leaflet (>= 1.1.0),
+    leaflet.extras,
+    leaflet.extras2,
     geosphere (>= 1.5-5),
     ggmap (>= 2.6.1),
     rjson (>= 0.2.15),
