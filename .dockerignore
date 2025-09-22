@@ -1,0 +1,24 @@
+# Ignore git stuff
+.git
+.gitignore
+
+# CI/CD workflows
+.github/
+
+# Docker-related files
+Dockerfile
+docker-compose.yml
+Makefile
+
+# Local R build artifacts
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+# Package build outputs
+*.tar.gz
+
+# Tests & vignettes (optional if not needed in container)
+tests/
+vignettes/
