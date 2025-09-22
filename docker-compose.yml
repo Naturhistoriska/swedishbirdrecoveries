@@ -1,0 +1,10 @@
+
+services:
+  shiny-app:
+    image: swedishbirdrecoveries:0.1.8
+    container_name: swedishbirdrecoveries
+    ports:
+      - "3838:3838"
+    restart: unless-stopped
+    environment:
+      - MAX_ROWS="40000"
