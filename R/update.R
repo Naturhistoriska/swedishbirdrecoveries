@@ -1,21 +1,31 @@
+library(dplyr)
+library(readr)
+library(tibble)
+library(tidyselect)
 
-sbr_sqlite <- function() dplyr::src_sqlite(file.path(system.file(
-		package = "swedishbirdrecoveries"), "extdata", "sbr.db"))
+# Open SQLite connection
+sbr_sqlite <- function() {
+  DBI::dbConnect(
+    RSQLite::SQLite(),
+    file.path(system.file(package = "swedishbirdrecoveries"), "extdata", "sbr.db")
+  )
+}
 
 #' Get a history of updates made
-#' @import dplyr
 #' @export
 update_log <- function() {
-	sbr_sqlite() %>%
-		tbl("updates") %>%
-		collect %>% .$update_date %>%
-		as.Date(origin = "1970-01-01")
+  con <- sbr_sqlite()
+  on.exit(DBI::dbDisconnect(con), add = TRUE)
+
+  DBI::dbReadTable(con, "updates") %>%
+    dplyr::pull(update_date) %>%
+    as.Date(origin = "1970-01-01")
 }
 
 #' Download dataset locally
 #'
 #' @importFrom readr read_csv locale
-#' @importFrom dplyr select_vars filter
+#' @importFrom dplyr filter select rename
 #' @importFrom utils download.file
 #'
 remote_dl <- function() {
@@ -24,7 +34,6 @@ remote_dl <- function() {
 	DEST <- "/tmp/recoveries.csv"
 	message("Downloading updated dataset from ",
 		PUB_URL, " into ", DEST)
-	#if (!file.exists(DEST))
 	download.file(PUB_URL, DEST)
 
 	update_df <- read_csv(DEST, skip = 1, quote = "\"",
@@ -52,8 +61,8 @@ remote_dl <- function() {
 	))
 
 	names(update_df) <- new_colnames
-	swe_cols <- select_vars(new_colnames, ends_with("_swe"))
-	eng_cols <- select_vars(new_colnames, ends_with("_eng"))
+	swe_cols <- tidyselect::vars_select(new_colnames, ends_with("_swe"))
+	eng_cols <- tidyselect::vars_select(new_colnames, ends_with("_eng"))
 	swe_cols_new <- as.vector(gsub("_swe", "", swe_cols, fixed = TRUE))
 	eng_cols_new <- as.vector(gsub("_eng", "", eng_cols, fixed = TRUE))
 	names(swe_cols) <- swe_cols_new
@@ -62,19 +71,19 @@ remote_dl <- function() {
 	birdrecoveries_eng <-
 	  update_df %>%
 	  select(everything(), -ends_with("swe")) %>%
-	  dplyr::rename_(.dots = eng_cols) %>%
-		filter(!is.na(ringing_lon), !is.na(ringing_lat),
-					 !is.na(recovery_lon), !is.na(recovery_lat))
+	  rename_(!!!eng_cols) %>%
+	  filter(!is.na(ringing_lon), !is.na(ringing_lat),
+          !is.na(recovery_lon), !is.na(recovery_lat))
 
 	birdrecoveries_swe <-
 	  update_df %>%
 	  select(everything(), -ends_with("eng")) %>%
-	  dplyr::rename_(.dots = swe_cols) %>%
-		filter(!is.na(ringing_lon), !is.na(ringing_lat),
-					 !is.na(recovery_lon), !is.na(recovery_lat))
+	  rename(!!!swe_cols) %>%
+	  filter(!is.na(ringing_lon), !is.na(ringing_lat),
+          !is.na(recovery_lon), !is.na(recovery_lat))
 
 	TRANSLATION_DB <- file.path(system.file(
-		package = "swedishbirdrecoveries"), "extdata", "translation.csv")
+    package = "swedishbirdrecoveries"), "extdata", "translation.csv")
 
 	birdrecoveries_i18n <- read_csv(TRANSLATION_DB)
 
@@ -84,53 +93,43 @@ remote_dl <- function() {
 }
 
 #' Update local db with dataset from remote, create if needed
-#' @import dplyr
-#' @importFrom dplyr src_sqlite copy_to db_insert_into
-#' @importFrom tibble tibble
 #' @export
 update_data <- function(force = FALSE) {
 
 	BIRDS_DB <- file.path(system.file(
 		package = "swedishbirdrecoveries"), "extdata", "sbr.db")
 
-	if (!file.exists(BIRDS_DB)) {
-		message("Found no local db, creating using data from remote...")
-		my_db <- src_sqlite(BIRDS_DB, create = TRUE)
-	} else {
-		my_db <- src_sqlite(BIRDS_DB)
-	}
+	con <- DBI::dbConnect(RSQLite::SQLite(), BIRDS_DB)
+	on.exit(DBI::dbDisconnect(con), add = TRUE)
 
 	# is there an update log?
-	if (!"updates" %in% src_tbls(my_db)) {
+	if (!"updates" %in% DBI::dbListTables(con)) {
 		message("No updates table/log in local db, adding it")
-		updates <- tibble(update_date = Sys.Date() - 1)
-		copy_to(my_db, updates, "updates",
-						temporary = FALSE, overwrite = TRUE)
+		updates <- tibble::tibble(update_date = Sys.Date() - 1)
+		DBI::dbWriteTable(con, "updates", updates, overwrite = TRUE)
 	}
-
 	# is the db up-to-date?
 	latest_update <-
-		my_db %>% tbl("updates") %>%
+		DBI::dbReadTable(con, "updates") %>%
 		summarize(latest = max(update_date)) %>%
-		collect %>% .$latest %>%
+		pull(latest) %>%
 		as.Date(origin = "1970-01-01")
 
-	if (force == TRUE || Sys.Date() > latest_update) {
+	if (force || Sys.Date() > latest_update) {
 		message("Last update was", latest_update)
 		message("Update needed, getting remote data...")
 		res <- remote_dl()
-		copy_to(my_db, res$birdrecoveries_eng, "birdrecoveries_eng",
-			temporary = FALSE, overwrite = TRUE)
-		copy_to(my_db, res$birdrecoveries_swe, "birdrecoveries_swe",
-			temporary = FALSE, overwrite = TRUE)
-		copy_to(my_db, res$birdrecoveries_i18n, "birdrecoveries_i18n",
-			temporary = FALSE, overwrite = TRUE)
+
+		DBI::dbWriteTable(con, "birdrecoveries_eng", res$birdrecoveries_eng, overwrite = TRUE)
+		DBI::dbWriteTable(con, "birdrecoveries_swe", res$birdrecoveries_swe, overwrite = TRUE)
+		DBI::dbWriteTable(con, "birdrecoveries_i18n", res$birdrecoveries_i18n, overwrite = TRUE)
+
 		message("Logging update with timestamp")
-		today_df <- tibble(update_date = Sys.Date())
-		db_insert_into(my_db$con, "updates", values = today_df)
+		today_df <- tibble::tibble(update_date = Sys.Date())
+		DBI::dbWriteTable(con, "updates", today_df, append = TRUE)
+
 		message("Done updating", BIRDS_DB)
 	} else {
 		message("No update needed, already up to date")
 	}
-
 }
