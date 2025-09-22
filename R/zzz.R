@@ -31,7 +31,7 @@
 
   styled_banner <-
     g("Welcome to ...") %+% s(r(" ", 11)) %+%
-    s("https://") %+% b("mskyttner") %+% s(paste0(".github.io/", PKG))  %+%
+    s("https://") %+% b("Naturhistoriska") %+% s(paste0(".github.io/", PKG))  %+%
     b(banner) %+%
     g(paste0("New to '", PKG, "'? For a tutorial, use:"))  %+%
     g(paste0("\nvignette('", PKG, "-vignette')")) %+%
