@@ -64,14 +64,14 @@ popup_content <- #htmltools::htmlEscape(
 map <- 
   leaflet(data = birds) %>% 
   # base groups
-  addProviderTiles("OpenStreetMap.BlackAndWhite", group = "Gray") %>% 
-  addProviderTiles("Stamen.TonerLite", group = "Black & White") %>%
-#  addMarkers(~longitude, ~latitude, popup = ~as.character(dgr), group = "Individual") %>%
+  addProviderTiles("CartoDB.PositronNoLabels", group = "Gray") %>%
+  addProviderTiles("CartoDB.DarkMatterNoLabels", group = "Black & White") %>%
+  # addMarkers(~longitude, ~latitude, popup = ~as.character(dgr), group = "Individual") %>%
   addMarkers(~longitude, ~latitude, popup = popup_content,
              clusterOptions = markerClusterOptions(), group = "Clustered") %>%
   addLayersControl(
     baseGroups = c("Gray", "Black & White"),
-#    overlayGroups = c("Individual", "Clustered"),
+    # overlayGroups = c("Individual", "Clustered"),
     options = layersControlOptions(collapsed = FALSE)
   )
 
