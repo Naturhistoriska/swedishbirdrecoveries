@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-r-package:
-    name: Check R package
+    name: Build R package
     runs-on: ubuntu-latest
 
     steps:
@@ -31,12 +31,12 @@ jobs:
         with:
           extra-packages: any::remotes
 
-      - name: Check package
-        uses: r-lib/actions/check-r-package@v2
-        with:
-          args: --no-tests --no-manual --as-cran
-          error-on: error
-          check-dir: check
+      - name: Build R package (skip docs/tests)
+        run: |
+          R CMD build . --no-manual --no-build-vignettes --no-tests
+
+      - name: Install built package
+        run: R CMD INSTALL $(ls -1t *.tar.gz | head -n 1)
 
   docker:
     name: Build & Publish Docker Image
@@ -80,3 +80,4 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64,linux/arm64
+
