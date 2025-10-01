@@ -6,6 +6,9 @@
 \usage{
 update_data(force = FALSE)
 }
+\arguments{
+\item{force}{logical, if TRUE, forces the update even if the database is up-to-date.}
+}
 \description{
 Update local db with dataset from remote, create if needed
 }

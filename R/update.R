@@ -25,7 +25,7 @@ update_log <- function() {
 #' Download dataset locally
 #'
 #' @importFrom readr read_csv locale
-#' @importFrom dplyr filter select rename
+#' @importFrom dplyr filter select rename ends_with everything rename_
 #' @importFrom utils download.file
 #'
 remote_dl <- function() {
@@ -71,7 +71,7 @@ remote_dl <- function() {
 	birdrecoveries_eng <-
 	  update_df %>%
 	  select(everything(), -ends_with("swe")) %>%
-	  rename_(!!!eng_cols) %>%
+	  rename(!!!eng_cols) %>%
 	  filter(!is.na(ringing_lon), !is.na(ringing_lat),
           !is.na(recovery_lon), !is.na(recovery_lat))
 
@@ -93,6 +93,8 @@ remote_dl <- function() {
 }
 
 #' Update local db with dataset from remote, create if needed
+#' @param force logical, if TRUE, forces the update even if the database is up-to-date.
+#' @importFrom dplyr summarize pull
 #' @export
 update_data <- function(force = FALSE) {
 
