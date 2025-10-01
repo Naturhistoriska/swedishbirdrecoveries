@@ -3,7 +3,7 @@ Type: Package
 Title: Swedish Bird Recoveries (Data and User Interface)
 Version: 0.1.8
 Author: Swedish Museum of Natural History
-Maintainer:  Swedish Museum of Natural History <bird.ringing@nrm.se>
+Maintainer: Swedish Museum of Natural History <bird.ringing@nrm.se>
 URL: https://github.com/Naturhistoriska/swedishbirdrecoveries
 BugReports: https://github.com/Naturhistoriska/swedishbirdrecoveries/issues
 Description: Data for recaptured birds from the Swedish Museum of Natural History.
@@ -13,7 +13,7 @@ Encoding: UTF-8
 LazyData: false
 RoxygenNote: 7.3.2
 Depends:
-    R (>= 3.3.1),
+    R (>= 3.5),
     dplyr (>= 0.7.0)
 Imports:
     stringr (>= 1.2.0),
