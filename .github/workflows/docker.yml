@@ -29,16 +29,6 @@ jobs:
         with:
           extra-packages: any::remotes
 
-      - name: Debug LFS files
-        run: |
-          echo "--- Listing files and permissions in inst/extdata ---"
-          ls -lR inst/extdata
-          echo "--- Checking the first 100 bytes of sbr.db ---"
-          cat inst/extdata/sbr.db | head -c 100
-          echo ""
-          echo "--- Verifying git-lfs tracking (non-critical) ---"
-          git lfs ls-files || true
-
       - name: Build R package
         run: |
           R CMD build .
