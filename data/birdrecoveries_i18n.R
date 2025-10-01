@@ -2,8 +2,11 @@ library(DBI)
 library(RSQLite)
 library(dplyr)
 
-BIRDS_DB <- file.path(.libPaths()[1],
- 	"swedishbirdrecoveries", "extdata", "sbr.db")
+BIRDS_DB <- system.file(
+  "extdata",
+  "sbr.db",
+  package = "swedishbirdrecoveries"
+)
 
 con <- DBI::dbConnect(RSQLite::SQLite(), BIRDS_DB)
 
