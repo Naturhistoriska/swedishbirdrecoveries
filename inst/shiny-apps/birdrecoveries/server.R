@@ -154,61 +154,85 @@ server <- function(input, output, session) {
 	})
 
 	output$species <- renderUI({
-		#  	req(birds())
-		species <- birds() %>%
-			distinct(name) %>%
-			arrange(name) %>%
-			.$name
-		sciname <- birds() %>%
-			distinct(sciname) %>%
-			.$sciname
-		#    if (is.null(species)) return()
-		default_species <-
-			birds() %>%
-			filter(sciname == "Erithacus rubecula") %>%
+	    env_species <- Sys.getenv("DEFAULT_SPECIES", unset = "Erithacus rubecula")
+        default_species <- birds() %>%
+        filter(sciname == env_species) %>%
 			select(name) %>%
 			distinct() %>%
 			.$name
+		message("Default species: ", paste(default_species, collapse = ", "))
 		selectizeInput(
 			"species",
 			label = i18n("name", lang()),
-			choices = species,
+			choices = NULL,
 			selected = default_species,
 			multiple = TRUE,
-			options = list(maxItems = 20) # ,
+			options = list(maxItems = 20)
 		)
 	})
 
 	output$source <- renderUI({
-		# 	req(birds())
-		source <- birds() %>%
-			distinct(recovery_source) %>%
-			.$recovery_source
-		#  if (is.null(source)) return()
 		selectizeInput(
 			"source",
 			label = i18n("recovery_source", lang()),
-			choices = source,
+			choices = NULL,
 			multiple = TRUE,
-			options = list(maxItems = 20) # ,
+			options = list(maxItems = 20)
 		)
 	})
 
 	output$country <- renderUI({
-		country <- birds() %>%
-			distinct(recovery_country) %>%
-			arrange(recovery_country) %>%
-			.$recovery_country
-		if (is.null(country)) {
-			return()
-		}
 		selectizeInput(
 			"country",
 			label = i18n("recovery_country", lang()),
-			choices = country,
+			choices = NULL,
 			multiple = TRUE,
-			options = list(maxItems = 20) # ,
+			options = list(maxItems = 20)
 		)
+	})
+
+	observeEvent(birds(), {
+		# Update source
+		source_choices <- birds() %>%
+			distinct(recovery_source) %>%
+			.$recovery_source
+		updateSelectizeInput(session, "source", choices = source_choices, server = TRUE)
+
+		# Update species
+		species_choices <- birds() %>%
+			distinct(name) %>%
+			arrange(name) %>%
+			.$name
+		env_species <- Sys.getenv("DEFAULT_SPECIES", unset = "Erithacus rubecula")
+        default_species <- birds() %>%
+            filter(sciname == env_species) %>%
+			select(name) %>%
+			distinct() %>%
+			.$name
+		selected_species <- if (is.null(input$species) || length(input$species) == 0) default_species else input$species
+		updateSelectizeInput(session, "species", choices = species_choices, selected = selected_species, server = TRUE)
+
+		# Update country
+		country_choices <- birds() %>%
+			distinct(recovery_country) %>%
+			arrange(recovery_country) %>%
+			.$recovery_country
+		updateSelectizeInput(session, "country", choices = country_choices, selected = input$country, server = TRUE)
+	})
+
+	# Species on language change
+	observeEvent(input$lang, {
+		species_choices <- birds() %>%
+			distinct(name) %>%
+			arrange(name) %>%
+			.$name
+		env_species <- Sys.getenv("DEFAULT_SPECIES", unset = "Erithacus rubecula")
+        default_species <- birds() %>%
+        filter(sciname == env_species) %>%
+			select(name) %>%
+			distinct() %>%
+			.$name
+		updateSelectizeInput(session, "species", choices = species_choices, selected = default_species, server = TRUE)
 	})
 
 	output$months <- renderUI({
