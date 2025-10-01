@@ -2,16 +2,11 @@
 % Please edit documentation in R/scrape.R
 \name{scrape_checklist_falsterbo}
 \alias{scrape_checklist_falsterbo}
-\title{Retrieve species list from Falsterbo Fågelstation}
+\title{Scrape checklist from Falsterbo}
 \usage{
 scrape_checklist_falsterbo()
 }
-\value{
-a data frame with species names and codes
-}
 \description{
-Retrieve species list from Falsterbo Fågelstation
+This function is deprecated because the website is no longer available.
 }
-\examples{
-df <- scrape_checklist_falsterbo()
-}
+\keyword{internal}

@@ -2,16 +2,11 @@
 % Please edit documentation in R/scrape.R
 \name{scrape_checklist_norway}
 \alias{scrape_checklist_norway}
-\title{Retrieve species list from Norway, Stavanger}
+\title{Scrape checklist from Norway}
 \usage{
 scrape_checklist_norway()
 }
-\value{
-a data frame
-}
 \description{
-Retrieve species list from Norway, Stavanger
+This function is deprecated because the website is no longer available.
 }
-\examples{
-df <- scrape_checklist_norway()
-}
+\keyword{internal}

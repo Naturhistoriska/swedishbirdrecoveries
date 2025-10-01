@@ -2,16 +2,11 @@
 % Please edit documentation in R/scrape.R
 \name{scrape_recoveries_ottenby}
 \alias{scrape_recoveries_ottenby}
-\title{Retrieve bird recovery data from Ottenby Fågelstation}
+\title{Scrape recoveries from Ottenby}
 \usage{
 scrape_recoveries_ottenby()
 }
-\value{
-a data frame with recovery data
-}
 \description{
-Retrieve bird recovery data from Ottenby Fågelstation
+This function is deprecated because the website is no longer available.
 }
-\examples{
-df <- scrape_recoveries_ottenby()
-}
+\keyword{internal}

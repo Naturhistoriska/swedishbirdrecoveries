@@ -2,19 +2,11 @@
 % Please edit documentation in R/scrape.R
 \name{scrape_recoveries_norway}
 \alias{scrape_recoveries_norway}
-\title{Retrieve bird recovery data from Norway (Stavanger)}
+\title{Scrape recoveries from Norway}
 \usage{
 scrape_recoveries_norway(species_id = 1580)
 }
-\arguments{
-\item{species_id}{the species id for a bird species}
-}
-\value{
-a data frame with recovery data
-}
 \description{
-Retrieve bird recovery data from Norway (Stavanger)
+This function is deprecated because the website is no longer available.
 }
-\examples{
-df <- scrape_recoveries_norway()
-}
+\keyword{internal}
