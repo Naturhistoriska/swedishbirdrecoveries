@@ -1,24 +1,34 @@
-# Ignore git stuff
-.git
+# Git
+.git/
 .gitignore
 
-# CI/CD workflows
-.github/
+# RStudio
+.Rproj.user/
+swedishbirdrecoveries.Rproj
 
-# Docker-related files
-Dockerfile
-docker-compose.yml
-Makefile
-
-# Local R build artifacts
-.Rproj.user
+# R history
 .Rhistory
 .RData
 .Ruserdata
+.Renviron
 
-# Package build outputs
+# R package build
 *.tar.gz
+*.Rcheck/
 
-# Tests & vignettes (optional if not needed in container)
-tests/
+# CI/CD
+.travis.yml
+.github/
+
+# Docker
+Dockerfile
+docker-compose.yml
+
+# Documentation & raw data
 vignettes/
+data-raw/
+README.Rmd
+NEWS.md
+
+# This file
+.dockerignore

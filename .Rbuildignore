@@ -4,11 +4,9 @@
 ^\.Rprofile$
 ^\.travis\.yml$
 ^data-raw$
-^\.travis\.yml$
 ^\.Rproj\.user$
 ^\.Rhistory$
 ^\.gitignore$
-^\.travis.yml$
 ^vignettes/\.build.timestamp$
 ^\.git$
 ^\.httr-oauth$
@@ -16,8 +14,13 @@
 ^README\.Rmd$
 ^README-.*\.png$
 ^logo\.png$
-^dev*\.R$
+^dev.*\.R$
 ^flowmaps\.R$
 ^R/geocode\.R$
 ^TODO\.Rmd$
 ^TODO\.html$
+^\.github$
+^\.dockerignore$
+^Dockerfile$
+^docker-compose.yml$
+^www$
