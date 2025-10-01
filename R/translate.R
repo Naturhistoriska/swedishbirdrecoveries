@@ -23,7 +23,7 @@ i18n <- function(field, lang = "eng") {
 	res <-
 		birdrecoveries_i18n %>%
 		filter(colname == field) %>%
-		select_(desc) %>% .[[desc]]
+		pull(desc)
 
   if (length(res) == 0) res <- ""
 
