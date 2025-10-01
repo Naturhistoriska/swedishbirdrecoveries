@@ -31,9 +31,9 @@ jobs:
         with:
           extra-packages: any::remotes
 
-      - name: Build R package (skip docs/tests)
+      - name: Build R package
         run: |
-          R CMD build . --no-manual --no-build-vignettes --no-tests
+          R CMD build .
 
       - name: Install built package
         run: R CMD INSTALL $(ls -1t *.tar.gz | head -n 1)
