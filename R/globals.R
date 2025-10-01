@@ -1,0 +1,2 @@
+utils::globalVariables(c(".", "birdrecoveries_i18n", "colname", "data", "dist", "lat", "latest", "lon", "num", "recovery_lat", "recovery_lon", "ringing_lat", "ringing_lon", "update_date"))
+utils::globalVariables(c("ends_with", "everything", "pull", "rename_", "summarize"))
