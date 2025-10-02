@@ -4,12 +4,23 @@ library(lubridate)
 library(swedishbirdrecoveries)
 library(leaflet.extras)
 
-# library(DBI)
-# library(RSQLite)
+# --- Data Loading from Database ---
 
-data("birdrecoveries_eng")
-data("birdrecoveries_swe")
-data("birdrecoveries_i18n")
+# Helper function to connect to the database
+# (copied from internal package code for shiny app use)
+sbr_sqlite <- function() {
+  DBI::dbConnect(
+    RSQLite::SQLite(),
+    system.file("extdata", "sbr.db", package = "swedishbirdrecoveries")
+  )
+}
+
+# Establish a connection that will be used by the app
+con <- sbr_sqlite()
+# on.exit(DBI::dbDisconnect(con), add = TRUE) # Ensure db is disconnected when app stops
+
+# i18n data is used globally, load it once.
+birdrecoveries_i18n <- DBI::dbReadTable(con, "birdrecoveries_i18n")
 
 # shinyServer(function(input, output) {
 
@@ -21,6 +32,8 @@ server <- function(input, output, session) {
 		floor(min(x, na.rm = TRUE))
 	cmax <- function(x)
 		ceiling(max(x, na.rm = TRUE))
+
+    int_to_date <- function(x) as.Date(x, "1970-01-01")
 
 	df <- reactive({
 		req(birds())
@@ -136,10 +149,15 @@ server <- function(input, output, session) {
 	})
 
 	birds <- reactive({
-		get(paste0("birdrecoveries_", lang()))
-		#  	req(input$lang)
-		#  	if (input$lang == "Svenska") return (birdrecoveries_swe)
-		# 		return (birdrecoveries_eng)
+		req(lang())
+		table_name <- paste0("birdrecoveries_", lang())
+		# Read table and convert integer dates to Date objects
+		raw_data <- DBI::dbReadTable(con, table_name)
+		dplyr::mutate(raw_data,
+            ringing_date = int_to_date(ringing_date),
+            recovery_date = int_to_date(recovery_date),
+            modified_date = int_to_date(modified_date)
+        )
 	})
 
 	output$lang <- renderUI({
@@ -266,7 +284,7 @@ server <- function(input, output, session) {
 	})
 
 	output$years <- renderUI({
-		y <- sort(unique(year(birdrecoveries_eng$recovery_date)), decreasing = TRUE)
+		y <- sort(unique(year(birds()$recovery_date)), decreasing = TRUE)
 		selectizeInput(
 			"years",
 			label = i18n("ui_recovery_year", lang()),
