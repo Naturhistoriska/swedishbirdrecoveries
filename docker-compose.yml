@@ -1,8 +1,8 @@
-
 services:
-  shiny-app:
-    image: swedishbirdrecoveries:v0.1.8
-    container_name: swedishbirdrecoveries
+  swedishbirdrecoveries-app:
+    build: .
+    image: swedishbirdrecoveries:local
+    container_name: swedishbirdrecoveries-app
     ports:
       - "3838:3838"
     restart: unless-stopped
