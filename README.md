@@ -1,14 +1,13 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-swedishbirdrecoveries
-=====================
 
-The Swedish Museum for Natural History manages bird ringing data in Sweden. This R package - `swedishbirdrecoveries` - provides a programmatic interface to Swedish Bird Recovery data. 
+# swedishbirdrecoveries
 
-https://birdrecoveries.nrm.se/
+The Swedish Museum for Natural History manages bird ringing data in
+Sweden. This R package - `swedishbirdrecoveries` - provides a
+programmatic interface to Swedish Bird Recovery data.
 
-Functionality and Stakeholders
-------------------------------
+## Functionality and Stakeholders
 
 Stakeholders and their needs:
 
@@ -16,30 +15,38 @@ Stakeholders and their needs:
 
 Needs to manage the data internally and externally.
 
-Can participate in the process and develop the package further. Can control which data is made public and update frequency. Can also use the package to work with internal data in the same format.
+Can participate in the process and develop the package further. Can
+control which data is made public and update frequency. Can also use the
+package to work with internal data in the same format.
 
 ### Research Community
 
 Needs access to the data for scientific use.
 
-Can install and use an R-package with datasets and visuals (see installation instructions below).
+Can install and use an R-package with datasets and visuals (see
+installation instructions below).
 
 ### Citizens / General Public
 
 Needs web-friendly way to look at the data.
 
-Can use a web user interface to explore the data with no installation required, by browsing to a server which has deloyed this package.
+Can use a web user interface to explore the data with no installation
+required, by browsing to a server which has deloyed this package.
 
-Can use a DINA-Web application such as The Naturalist, which can link to the data in relevant presentation formats.
+Can use a DINA-Web application such as The Naturalist, which can link to
+the data in relevant presentation formats.
 
 ### Public Sector Information
 
-Needs to aggregate and disseminate the data internationally and nationally.
+Needs to aggregate and disseminate the data internationally and
+nationally.
 
-Can be achieved by ensuring that data can flow to GBIF via DINA-Web for international and national use, which will enable that data can be made available at nrm.se/psi-data, in line with the Museum's mission and regulations.
+Can be achieved by ensuring that data can flow to GBIF via DINA-Web for
+international and national use, which will enable that data can be made
+available at nrm.se/psi-data, in line with the Museum’s mission and
+regulations.
 
-Installation
-------------
+## Installation
 
 You can get started by installing from Github:
 
@@ -51,32 +58,36 @@ devtools::install_github("Naturhistoriska/swedishbirdrecoveries")
 library(swedishbirdrecoveries)
 ```
 
-Usage
------
+## Usage
 
 The data include several dimensions:
 
--   Species
--   Ringing date
--   Ringing position
--   Ringing age category
--   Sex
--   Recovery date
--   Recovery position
+- Species
+- Ringing date
+- Ringing position
+- Ringing age category
+- Sex
+- Recovery date
+- Recovery position
 
 ### Searches
 
-Search for recoveries that has occurred within a specific time period (begin - end for original ringing and recovery dates) - this can be used to study seasonality and which recoveries happen in the same season...
+Search for recoveries that has occurred within a specific time period
+(begin - end for original ringing and recovery dates) - this can be used
+to study seasonality and which recoveries happen in the same season…
 
-Recaptures made within less than 10 km from the original ringing location are by default not returned.
+Recaptures made within less than 10 km from the original ringing
+location are by default not returned.
 
 ### Report about seasonal average position
 
-Search for recoveries with known recovery date by season and get average position by species.
+Search for recoveries with known recovery date by season and get average
+position by species.
 
 ### Reports about average percentage shot recoveries
 
-Study the perentage of recoveries for species that are shot across countries or regions.
+Study the perentage of recoveries for species that are shot across
+countries or regions.
 
 ### Kernels
 
@@ -86,54 +97,56 @@ Given recoveries per species, what would a kernel look like?
 
 TODO: write section here
 
-Meta
-----
+## Running the Shiny App with Docker
 
--   Please [report any requests, issues or bugs](https://github.com/Naturhistoriska/swedishbirdrecoveries/issues) 
--   [Older issues, see this repo](https://github.com/Naturhistoriska/swedishbirdrecoveries/issues).
--   License: Affero GPL v3
+This project can be built and run as a containerized Shiny application
+using Docker. This provides a consistent and reproducible environment
+for the application, ensuring that it runs the same way regardless of
+the host system.
 
+### Building and Running with Docker Compose
 
-# Docker
+The easiest way to get the Shiny app running locally is by using Docker
+Compose. The project includes a `docker-compose.yml` file that
+orchestrates the build and execution of the Docker container.
 
-Dockerfile
----
-/usr/local/lib/R/site-library/swedishbirdrecoveries/shiny-apps/birdrecoveries 
+To build and start the application, run the following command from the
+root of the project directory:
 
-
-# Matomo
-Matomo is used for tracking/analytics since april 2020, see more at -> https://matomo.org/ 
-
-## Configuration
-2022-03-07 ->Matomo is running on the matomo.dina-web.net
-
-**ui.R holds the matomo7april.html**
-```
-# IE:	adding 'matotomo tracking-id'
-dashBody <- dashboardBody(
-	tags$head(
-  tags$head(includeHTML(("matomo7april.html"))),
-	tags$style(type = "text/css", "#mapbox { height: 80vh !important; }"),
-	tags$style(type = "text/css", "#birdmap { height: 75vh !important; }")),
-	uiOutput("tab_box")
-)
+``` bash
+docker-compose up -d
 ```
 
-**contents of the matomo7april.html** 
-```
-<!-- Matomo -->
-<script type="text/javascript">
-  var _paq = window._paq || [];
-  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-  _paq.push(['trackPageView']);
-  _paq.push(['enableLinkTracking']);
-  (function() {
-    var u="//matomo.dina-web.net/";
-    _paq.push(['setTrackerUrl', u+'matomo.php']);
-    _paq.push(['setSiteId', '1']);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-  })();
-</script>
-<!-- End Matomo Code -->
-```
+This command performs the following steps: 1. It builds the Docker image
+for the application based on the instructions in the `Dockerfile`. 2. It
+starts a container from that image in detached mode (`-d`), running the
+application in the background.
+
+Once the container is running, the Shiny app will be accessible in your
+web browser at `http://localhost:3838`.
+
+### Automated Builds with GitHub Actions
+
+This project is set up with a Continuous Integration/Continuous
+Deployment (CI/CD) pipeline using GitHub Actions to automate the
+building and publishing of the Docker image.
+
+The workflow is defined in the `.github/workflows/docker.yml` file and
+is configured to trigger automatically on every push to the `main`
+branch that includes a version tag (e.g., `v1.0.0`, `v1.2.3`).
+
+When triggered, the workflow builds a new Docker image and publishes it
+to the GitHub Container Registry (ghcr.io). The published image can be
+found at:
+
+`ghcr.io/naturhistoriska/swedishbirdrecoveries`
+
+The image is tagged with multiple labels for easy version management: -
+The specific version number (e.g., `1.0.0`) - The major and minor
+version (e.g., `1.0`) - The major version only (e.g., `1`) - `latest`
+
+## Meta
+
+- Please [report any requests, issues or
+  bugs](https://github.com/Naturhistoriska/swedishbirdrecoveries/issues).
+- License: Affero GPL v3

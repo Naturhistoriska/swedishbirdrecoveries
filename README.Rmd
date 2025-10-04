@@ -92,6 +92,42 @@ Given recoveries per species, what would a kernel look like?
 
   TODO: write section here
 
+## Running the Shiny App with Docker
+
+This project can be built and run as a containerized Shiny application using Docker. This provides a consistent and reproducible environment for the application, ensuring that it runs the same way regardless of the host system.
+
+### Building and Running with Docker Compose
+
+The easiest way to get the Shiny app running locally is by using Docker Compose. The project includes a `docker-compose.yml` file that orchestrates the build and execution of the Docker container.
+
+To build and start the application, run the following command from the root of the project directory:
+
+```bash
+docker-compose up -d
+```
+
+This command performs the following steps:
+1.  It builds the Docker image for the application based on the instructions in the `Dockerfile`.
+2.  It starts a container from that image in detached mode (`-d`), running the application in the background.
+
+Once the container is running, the Shiny app will be accessible in your web browser at `http://localhost:3838`.
+
+### Automated Builds with GitHub Actions
+
+This project is set up with a Continuous Integration/Continuous Deployment (CI/CD) pipeline using GitHub Actions to automate the building and publishing of the Docker image.
+
+The workflow is defined in the `.github/workflows/docker.yml` file and is configured to trigger automatically on every push to the `main` branch that includes a version tag (e.g., `v1.0.0`, `v1.2.3`).
+
+When triggered, the workflow builds a new Docker image and publishes it to the GitHub Container Registry (ghcr.io). The published image can be found at:
+
+`ghcr.io/naturhistoriska/swedishbirdrecoveries`
+
+The image is tagged with multiple labels for easy version management:
+- The specific version number (e.g., `1.0.0`)
+- The major and minor version (e.g., `1.0`)
+- The major version only (e.g., `1`)
+- `latest`
+
 ## Meta
 
 * Please [report any requests, issues or bugs](https://github.com/Naturhistoriska/swedishbirdrecoveries/issues).
